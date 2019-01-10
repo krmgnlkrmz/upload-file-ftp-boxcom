@@ -1,0 +1,68 @@
+﻿ 
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    
+</head>
+<body>
+
+    @ViewData["message"]
+    <br/>
+          <form action="" method="post" enctype="multipart/form-data">
+              <div class="col-md-8">
+                  <div class="input-group">
+                      <label class="input-group-btn">
+                          <span class="btn btn-primary" typeof="submit">
+                              Browse&hellip; <input type="file" id="file" name="file" style="display:none;" multiple>
+                          </span>
+                          <button type="submit" name="submit" class="btn btn-primary btn-file">Yükle</button>
+                      </label>
+                      <input type="text" class="form-control" readonly>
+                  </div>
+              </div>
+          </form>
+    
+    <script>
+        $(function () {
+
+            // We can attach the fileselect event to all file inputs on the page
+            $(document).on('change', ':file', function () {
+                var input = $(this),
+                    numFiles = input.get(0).files ? input.get(0).files.length : 1,
+                    label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+                input.trigger('fileselect', [numFiles, label]);
+            });
+
+            // We can watch for our custom fileselect event like this
+            $(document).ready(function () {
+                $(':file').on('fileselect', function (event, numFiles, label) {
+
+                    var input = $(this).parents('.input-group').find(':text'),
+                        log = numFiles > 1 ? numFiles + ' files selected' : label;
+
+                    if (input.length) {
+                        input.val(log);
+                    } else {
+                        if (log) alert(log);
+                    }
+
+                });
+            });
+        });
+    </script>
+
+
+
+</body>
+</html>
